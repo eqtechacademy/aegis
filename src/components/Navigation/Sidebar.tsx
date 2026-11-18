@@ -1,140 +1,80 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { ViewMode } from '../../types';
 import { 
   Home, 
   LayoutDashboard, 
-  ShieldCheck, 
-  Building2, 
-  Mic, 
-  Workflow, 
-  Key, 
-  CreditCard, 
-  Boxes,
-  Lock,
-  Layers,
-  Brain,
-  ListOrdered,
-  Sparkles,
-  Monitor,
-  Smartphone,
-  Users,
-  Server
+  FolderKanban, 
+  CheckSquare, 
+  Users, 
+  Zap, 
+  Database,
+  BarChart2, 
+  BookOpen, 
+  Settings 
 } from 'lucide-react';
+import { ViewMode } from '../../types';
 
 export const Sidebar: React.FC = () => {
-  const { view, setView, role, setShowAuthModal, activeTenant } = useApp();
+  const { view, setView } = useApp();
 
   const navItems = [
     {
       id: 'dashboard' as ViewMode,
-      label: 'Home Dashboard',
+      label: 'Home',
       icon: Home,
-      roles: ['super_admin', 'tenant_admin', 'user'],
-    },
-    {
-      id: 'voice' as ViewMode,
-      label: 'Voice AI Assistant',
-      icon: Mic,
-      badge: 'Always-On',
-      roles: ['super_admin', 'tenant_admin', 'user'],
-    },
-    {
-      id: 'activity' as ViewMode,
-      label: 'Activity & Approvals',
-      icon: ListOrdered,
-      badge: '4 Tiers',
-      roles: ['super_admin', 'tenant_admin', 'user'],
-    },
-    {
-      id: 'leads' as ViewMode,
-      label: 'Meta & Google Leads',
-      icon: Users,
-      badge: 'Capture',
-      roles: ['super_admin', 'tenant_admin', 'user'],
-    },
-    {
-      id: 'mcp' as ViewMode,
-      label: 'MCP Server Manager',
-      icon: Server,
-      badge: '5 MCPs',
-      roles: ['super_admin', 'tenant_admin'],
-    },
-    {
-      id: 'memory' as ViewMode,
-      label: 'Personal Memory',
-      icon: Brain,
-      badge: 'Context',
-      roles: ['super_admin', 'tenant_admin', 'user'],
     },
     {
       id: 'robot3d' as ViewMode,
-      label: '3D Robot Experience',
-      icon: Boxes,
-      badge: 'Live Gait',
-      roles: ['super_admin', 'tenant_admin', 'user'],
-    },
-    {
-      id: 'automations' as ViewMode,
-      label: 'Voice Automations',
-      icon: Workflow,
-      badge: 'Recipes',
-      roles: ['super_admin', 'tenant_admin', 'user'],
-    },
-    {
-      id: 'integrations' as ViewMode,
-      label: 'Neural APIs & Vault',
-      icon: Key,
-      badge: '4 LLMs',
-      roles: ['super_admin', 'tenant_admin'],
-    },
-    {
-      id: 'admin' as ViewMode,
-      label: 'SaaS Super Admin',
-      icon: ShieldCheck,
-      badge: 'Master Key',
-      roles: ['super_admin'],
+      label: 'Dashboard',
+      icon: LayoutDashboard,
     },
     {
       id: 'tenant' as ViewMode,
-      label: 'Tenant Workspace',
-      icon: Building2,
-      badge: activeTenant.slug,
-      roles: ['super_admin', 'tenant_admin'],
+      label: 'Projects',
+      icon: FolderKanban,
     },
     {
-      id: 'pricing' as ViewMode,
-      label: 'Subscription & Pricing',
-      icon: CreditCard,
-      badge: '₹699+GST',
-      roles: ['super_admin', 'tenant_admin', 'user'],
+      id: 'activity' as ViewMode,
+      label: 'Tasks',
+      icon: CheckSquare,
     },
     {
-      id: 'services' as ViewMode,
-      label: 'Services & Capabilities',
-      icon: Sparkles,
-      badge: 'Zero Card',
-      roles: ['super_admin', 'tenant_admin', 'user'],
+      id: 'tenant' as ViewMode,
+      label: 'Team',
+      icon: Users,
     },
     {
-      id: 'desktop' as ViewMode,
-      label: 'Desktop App (Win EXE)',
-      icon: Monitor,
-      badge: 'PID 10424',
-      roles: ['super_admin', 'tenant_admin', 'user'],
+      id: 'voice' as ViewMode,
+      label: 'AI Assistant',
+      icon: Zap,
+      isSpecial: true,
     },
     {
-      id: 'mobile' as ViewMode,
-      label: 'Mobile Companion',
-      icon: Smartphone,
-      badge: 'iOS/APK',
-      roles: ['super_admin', 'tenant_admin', 'user'],
+      id: 'leads' as ViewMode,
+      label: 'Leads & MCP',
+      icon: Database,
+    },
+    {
+      id: 'admin' as ViewMode,
+      label: 'Reports',
+      icon: BarChart2,
+    },
+    {
+      id: 'memory' as ViewMode,
+      label: 'Knowledge',
+      icon: BookOpen,
+    },
+    {
+      id: 'integrations' as ViewMode,
+      label: 'Settings',
+      icon: Settings,
     },
   ];
 
   return (
     <aside className="w-64 flex-shrink-0 bg-[#070D1F]/90 backdrop-blur-xl border-r border-cyan-500/15 flex flex-col justify-between p-5 z-20 h-screen sticky top-0 overflow-y-auto">
-      <div className="space-y-5">
+      <div className="space-y-6">
+        
         {/* BRAND LOGO (Gradient Ribbon "A" + Typography) */}
         <div 
           onClick={() => setView('dashboard')}
@@ -172,46 +112,52 @@ export const Sidebar: React.FC = () => {
           </div>
         </div>
 
-        {/* NAVIGATION MENU */}
-        <nav className="space-y-1 pt-1">
-          {navItems.map((item) => {
+        {/* NAVIGATION MENU (Exact Stitch Hierarchy) */}
+        <nav className="space-y-1.5 pt-2">
+          {navItems.map((item, index) => {
             const Icon = item.icon;
-            const isActive = view === item.id;
-            const isVisible = item.roles.includes(role);
+            const isActive = view === item.id || (item.label === 'Home' && view === 'dashboard');
 
-            if (!isVisible) return null;
+            if (item.isSpecial) {
+              return (
+                <button
+                  key={`${item.id}-${index}`}
+                  onClick={() => setView(item.id)}
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-left ${
+                    isActive
+                      ? 'bg-gradient-to-r from-cyan-500/90 to-purple-600/90 text-white shadow-glow-pill font-semibold'
+                      : 'text-cyan-300 bg-cyan-950/30 border border-cyan-500/20 hover:bg-cyan-900/40'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className="w-4 h-4 text-cyan-400 animate-pulse" />
+                    <span>{item.label}</span>
+                  </div>
+                  <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-glow-cyan"></span>
+                </button>
+              );
+            }
 
             return (
               <button
-                key={item.id}
+                key={`${item.id}-${index}`}
                 onClick={() => setView(item.id)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-xs transition-all duration-200 text-left ${
+                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-left ${
                   isActive
                     ? 'bg-gradient-to-r from-cyan-500/90 to-purple-600/90 text-white shadow-glow-pill font-semibold'
                     : 'text-slate-300 hover:text-cyan-300 hover:bg-slate-800/40'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-cyan-400'}`} />
-                  <span>{item.label}</span>
-                </div>
-                {item.badge && (
-                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded-full ${
-                    isActive 
-                      ? 'bg-white/20 text-white' 
-                      : 'bg-cyan-950/60 text-cyan-400 border border-cyan-500/30'
-                  }`}>
-                    {item.badge}
-                  </span>
-                )}
+                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                <span>{item.label}</span>
               </button>
             );
           })}
         </nav>
       </div>
 
-      {/* BOTTOM PLAN INFO & EQMAX BRANDING */}
-      <div className="space-y-3 pt-4 border-t border-cyan-500/15">
+      {/* BOTTOM PLAN INFO & EQMAX BRANDING (Stitch Exact) */}
+      <div className="space-y-4 pt-4 border-t border-cyan-500/15">
         <div 
           onClick={() => setView('pricing')}
           className="p-3 rounded-xl bg-gradient-to-br from-indigo-950/70 to-slate-900/90 border border-purple-500/20 cursor-pointer hover:border-cyan-400/50 transition-all"
@@ -223,21 +169,12 @@ export const Sidebar: React.FC = () => {
           <p className="text-[11px] text-slate-400 mt-1 font-mono">
             ₹699+GST / mo after trial
           </p>
-          <div className="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+          <div className="w-full bg-slate-800 h-1.5 rounded-full mt-2.5 overflow-hidden">
             <div className="bg-gradient-to-r from-cyan-400 to-purple-500 h-full w-2/5"></div>
           </div>
         </div>
 
-        {/* Auth / Demo Quick Link */}
-        <button
-          onClick={() => setShowAuthModal(true)}
-          className="w-full py-1.5 px-3 rounded-xl bg-slate-900/60 hover:bg-cyan-950/40 border border-slate-700/80 text-slate-300 hover:text-cyan-300 text-xs font-mono flex items-center justify-center gap-2 transition-colors"
-        >
-          <Lock className="w-3.5 h-3.5 text-cyan-400" />
-          <span>Switch Account / Demo</span>
-        </button>
-
-        <div className="text-center pt-0.5">
+        <div className="text-center">
           <p className="text-[10px] text-cyan-400/90 font-mono tracking-wider">
             Powered and Developed by
           </p>

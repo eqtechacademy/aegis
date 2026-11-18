@@ -3,21 +3,15 @@ import { useApp } from '../../context/AppContext';
 import { 
   Sparkles, 
   Mic, 
-  ArrowRight, 
+  Plus, 
+  Calendar as CalendarIcon, 
   CheckCircle2, 
   Clock, 
   AlertTriangle, 
   TrendingUp, 
   ChevronLeft, 
   ChevronRight,
-  Send,
-  Zap,
-  Calendar as CalendarIcon,
-  FolderKanban,
-  Users,
-  BarChart3,
-  BrainCircuit,
-  FileText
+  ArrowRight
 } from 'lucide-react';
 
 export const FuturisticDashboard: React.FC = () => {
@@ -32,7 +26,6 @@ export const FuturisticDashboard: React.FC = () => {
   } = useApp();
 
   const [promptInput, setPromptInput] = useState('');
-  const [selectedDay, setSelectedDay] = useState(17);
 
   const handlePromptSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,23 +38,20 @@ export const FuturisticDashboard: React.FC = () => {
     sendMessage(actionText, false);
   };
 
-  // Calendar days generation for November 2026 (Nov 1 is Sunday)
-  const calendarDays = Array.from({ length: 30 }, (_, i) => i + 1);
-
   return (
-    <div className="p-6 sm:p-8 space-y-6 relative z-10 flex-1 max-w-7xl mx-auto w-full">
+    <div className="p-6 lg:p-8 space-y-6 relative z-10 flex-1 w-full">
       
       {/* DIGITAL HOLOGRAPHIC GLOBE / MESH BACKGROUND (Top-Right) */}
-      <div className="absolute top-0 right-0 w-[580px] h-[580px] pointer-events-none opacity-30 overflow-hidden z-0">
+      <div className="absolute top-0 right-0 w-[580px] h-[580px] pointer-events-none opacity-40 overflow-hidden z-0">
         <div className="absolute -top-16 -right-16 w-[540px] h-[540px] rounded-full border border-cyan-500/30 globe-grid"></div>
         <div className="absolute -top-10 -right-10 w-[480px] h-[480px] rounded-full border border-purple-500/30 rotate-12"></div>
         <div className="absolute top-12 right-12 w-[380px] h-[380px] rounded-full border border-cyan-400/20 rotate-45"></div>
-        <div className="absolute top-24 right-24 w-[300px] h-[300px] rounded-full border border-dashed border-cyan-400/40 animate-spin-slow"></div>
+        <div className="absolute top-24 right-24 w-[300px] h-[300px] rounded-full border border-dashed border-cyan-400/40 orbit-ring"></div>
         <div className="absolute top-1/4 right-1/4 w-3 h-3 rounded-full bg-cyan-400 shadow-glow-cyan animate-ping"></div>
         <div className="absolute top-1/3 right-1/2 w-2 h-2 rounded-full bg-purple-400 shadow-glow-purple"></div>
       </div>
 
-      {/* WELCOME HERO HEADER */}
+      {/* WELCOME HERO HEADER (Stitch Exact) */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
         <div>
           <h2 className="text-2xl lg:text-3xl font-bold font-display tracking-tight text-white flex items-center gap-2">
@@ -74,17 +64,17 @@ export const FuturisticDashboard: React.FC = () => {
 
         {/* System status pills */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-cyan-500/20 text-xs font-mono">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-cyan-500/20 text-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span className="text-slate-300">
               Voice Trigger: <strong className="text-cyan-300">"Hey AGIES"</strong>
             </span>
           </div>
           <button 
-            onClick={() => setView('automations')}
+            onClick={() => setView('activity')}
             className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-medium text-xs shadow-glow-pill hover:opacity-95 transition-opacity flex items-center gap-1.5"
           >
-            <span>+</span>
+            <Plus className="w-3.5 h-3.5" />
             <span>New Task</span>
           </button>
         </div>
@@ -111,8 +101,21 @@ export const FuturisticDashboard: React.FC = () => {
             >
               {/* Stylized Ribbon A inside Core */}
               <svg className="w-8 h-8 drop-shadow" viewBox="0 0 48 48" fill="none">
-                <path d="M12 40L24 8L36 40" stroke="#00F0FF" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M18 28C22 24 32 23 38 27C42 30 39 37 32 37H16" stroke="#38BDF8" strokeWidth="4.5" strokeLinecap="round" />
+                <defs>
+                  <linearGradient id="coreLogoGrad1" x1="4" y1="40" x2="38" y2="8" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stopColor="#00F0FF" />
+                    <stop offset="40%" stopColor="#2563EB" />
+                    <stop offset="80%" stopColor="#A855F7" />
+                    <stop offset="100%" stopColor="#EC4899" />
+                  </linearGradient>
+                  <linearGradient id="coreLogoGrad2" x1="16" y1="28" x2="44" y2="34" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stopColor="#38BDF8" />
+                    <stop offset="60%" stopColor="#9333EA" />
+                    <stop offset="100%" stopColor="#F43F5E" />
+                  </linearGradient>
+                </defs>
+                <path d="M12 40L24 8L36 40" stroke="url(#coreLogoGrad1)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M18 28C22 24 32 23 38 27C42 30 39 37 32 37H16" stroke="url(#coreLogoGrad2)" strokeWidth="4.5" strokeLinecap="round"/>
               </svg>
               <span className="text-[11px] font-bold font-display tracking-widest text-cyan-300 uppercase mt-0.5">
                 AGIES
@@ -120,13 +123,11 @@ export const FuturisticDashboard: React.FC = () => {
               
               {/* Mini Audio Waveform in Core */}
               <div className="flex items-center gap-0.5 mt-1">
-                {audioLevels.map((lvl, idx) => (
-                  <span 
-                    key={idx}
-                    className="w-0.5 bg-cyan-400 rounded-full transition-all duration-150"
-                    style={{ height: `${Math.min(lvl, 22)}px` }}
-                  />
-                ))}
+                <span className="w-0.5 bg-cyan-400 wave-bar" style={{ animationDelay: '0.1s', height: '10px' }}></span>
+                <span className="w-0.5 bg-purple-400 wave-bar" style={{ animationDelay: '0.3s', height: '14px' }}></span>
+                <span className="w-0.5 bg-cyan-300 wave-bar" style={{ animationDelay: '0.2s', height: '18px' }}></span>
+                <span className="w-0.5 bg-fuchsia-400 wave-bar" style={{ animationDelay: '0.4s', height: '12px' }}></span>
+                <span className="w-0.5 bg-cyan-400 wave-bar" style={{ animationDelay: '0.15s', height: '8px' }}></span>
               </div>
             </div>
 
@@ -142,13 +143,13 @@ export const FuturisticDashboard: React.FC = () => {
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500/20 to-purple-600/20 blur-sm pointer-events-none"></div>
               <div className="relative flex items-center justify-between bg-slate-900/90 border border-cyan-400/30 rounded-2xl px-5 py-3.5 shadow-lg">
                 <div className="flex items-center gap-3 flex-1">
-                  <Sparkles className="w-4 h-4 text-cyan-400 shrink-0 animate-pulse" />
+                  <span className="text-cyan-400 text-base">✨</span>
                   <input 
                     type="text" 
                     value={promptInput}
                     onChange={(e) => setPromptInput(e.target.value)}
                     placeholder="Ask AGIES... e.g., 'Show today's tasks', 'Project status', 'Generate report'" 
-                    className="w-full bg-transparent text-xs sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none font-sans"
+                    className="w-full bg-transparent text-sm text-slate-100 placeholder-slate-400 focus:outline-none font-sans"
                   />
                 </div>
                 <div className="flex items-center gap-2 pl-3">
@@ -164,18 +165,11 @@ export const FuturisticDashboard: React.FC = () => {
                   >
                     <Mic className="w-4 h-4" />
                   </button>
-                  <button
-                    type="submit"
-                    className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700"
-                    title="Send Prompt"
-                  >
-                    <Send className="w-4 h-4" />
-                  </button>
                 </div>
               </div>
             </form>
 
-            {/* Quick Action Category Badges */}
+            {/* Quick Action Category Badges (Stitch Exact) */}
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <button 
                 onClick={() => handleQuickAction("Show all my assigned tasks for this sprint")}
@@ -184,7 +178,7 @@ export const FuturisticDashboard: React.FC = () => {
                 <span>📋</span> My Tasks
               </button>
               <button 
-                onClick={() => handleQuickAction("Summarize status of all active projects")}
+                onClick={() => setView('tenant')}
                 className="px-3.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-cyan-950/60 border border-slate-700/80 hover:border-cyan-400/50 text-xs font-medium text-slate-300 hover:text-cyan-300 transition-all flex items-center gap-1.5"
               >
                 <span>📁</span> Projects
@@ -196,7 +190,7 @@ export const FuturisticDashboard: React.FC = () => {
                 <span>👥</span> Team
               </button>
               <button 
-                onClick={() => handleQuickAction("Generate monthly sprint report summary")}
+                onClick={() => setView('admin')}
                 className="px-3.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-cyan-950/60 border border-slate-700/80 hover:border-cyan-400/50 text-xs font-medium text-slate-300 hover:text-cyan-300 transition-all flex items-center gap-1.5"
               >
                 <span>📊</span> Reports
@@ -208,14 +202,14 @@ export const FuturisticDashboard: React.FC = () => {
                 <span>⚡</span> AI Tools
               </button>
               <button 
-                onClick={() => handleQuickAction("Search neural memory brain for eKYC protocols")}
+                onClick={() => setView('memory')}
                 className="px-3.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-cyan-950/60 border border-slate-700/80 hover:border-cyan-400/50 text-xs font-medium text-slate-300 hover:text-cyan-300 transition-all flex items-center gap-1.5"
               >
                 <span>🧠</span> Knowledge
               </button>
             </div>
 
-            {/* LIVE CONTINUOUS VOICE AGENT TRANSCRIPT HUD */}
+            {/* LIVE CONTINUOUS VOICE AGENT TRANSCRIPT HUD (Stitch Exact) */}
             <div className="mt-3 p-3.5 rounded-xl bg-[#080E24]/90 border border-cyan-500/25 relative overflow-hidden">
               <div className="flex items-center justify-between border-b border-cyan-500/20 pb-2 mb-2.5">
                 <div className="flex items-center gap-2">
@@ -257,7 +251,7 @@ export const FuturisticDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* METRIC CARDS ROW (Exact metrics from reference) */}
+      {/* METRIC CARDS ROW (Exact Stitch Metrics) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
         {/* 1: Tasks Assigned */}
         <div className="glass-panel rounded-2xl p-4 transition-all">
@@ -320,7 +314,7 @@ export const FuturisticDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* SPLIT LOWER GRID: ONGOING PROJECTS & AI SUGGESTIONS VS CALENDAR & TODAY'S SCHEDULE */}
+      {/* SPLIT LOWER GRID: ONGOING PROJECTS & AI SUGGESTIONS VS CALENDAR & TODAY'S SCHEDULE (Stitch Exact) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
 
         {/* LEFT & CENTER (2 Columns): PROJECTS + SUGGESTIONS */}
@@ -367,7 +361,7 @@ export const FuturisticDashboard: React.FC = () => {
               <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-purple-500/30 transition-all">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-purple-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse"></div>
                     <span className="font-semibold text-sm text-slate-100">EQTech Academy - Website v2</span>
                   </div>
                   <span className="text-xs font-mono font-bold text-purple-400">60%</span>
@@ -382,10 +376,10 @@ export const FuturisticDashboard: React.FC = () => {
               </div>
 
               {/* Project 3: Hospital Management Pro */}
-              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
+              <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-all">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
                     <span className="font-semibold text-sm text-slate-100">Hospital Management Pro</span>
                   </div>
                   <span className="text-xs font-mono font-bold text-emerald-400">40%</span>
@@ -404,7 +398,7 @@ export const FuturisticDashboard: React.FC = () => {
           {/* AI SUGGESTIONS WIDGET */}
           <div className="glass-panel rounded-2xl p-6">
             <h3 className="text-base font-bold font-display text-white flex items-center gap-2 mb-4">
-              <Zap className="w-4 h-4 text-cyan-400" />
+              <span className="text-cyan-400">⚡</span>
               <span>AI Suggestions</span>
             </h3>
 
@@ -413,7 +407,7 @@ export const FuturisticDashboard: React.FC = () => {
                 <div className="text-cyan-400 text-xs font-semibold mb-1">Priority Alert</div>
                 <p className="text-xs text-slate-200">Complete pending client update for Kerala Bank</p>
                 <button 
-                  onClick={() => sendMessage("Execute client update for Kerala Bank staging portal", false)}
+                  onClick={() => sendMessage("Execute pending client update for Kerala Bank", false)}
                   className="mt-2 text-[10px] text-cyan-300 font-mono flex items-center gap-1 hover:underline"
                 >
                   Execute now →
@@ -424,7 +418,7 @@ export const FuturisticDashboard: React.FC = () => {
                 <div className="text-purple-400 text-xs font-semibold mb-1">Upcoming Demo</div>
                 <p className="text-xs text-slate-200">EQTech Academy website demo is due tomorrow</p>
                 <button 
-                  onClick={() => sendMessage("Prepare slides and staging URL for EQTech Academy demo", false)}
+                  onClick={() => sendMessage("Prepare slides for EQTech Academy demo", false)}
                   className="mt-2 text-[10px] text-purple-300 font-mono flex items-center gap-1 hover:underline"
                 >
                   Prepare slides →
@@ -435,7 +429,7 @@ export const FuturisticDashboard: React.FC = () => {
                 <div className="text-slate-400 text-xs font-semibold mb-1">Monthly Routine</div>
                 <p className="text-xs text-slate-200">Prepare monthly performance & team summary</p>
                 <button 
-                  onClick={() => sendMessage("Auto-draft monthly performance summary for all 48 tenants", false)}
+                  onClick={() => sendMessage("Auto-draft monthly performance summary", false)}
                   className="mt-2 text-[10px] text-slate-400 font-mono flex items-center gap-1 hover:underline"
                 >
                   Auto-draft →
@@ -445,16 +439,13 @@ export const FuturisticDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* RIGHT PANEL (1 Column): CALENDAR + TODAY'S SCHEDULE */}
+        {/* RIGHT PANEL (1 Column): CALENDAR + TODAY'S SCHEDULE (Stitch Exact) */}
         <div className="space-y-6">
 
           {/* CALENDAR WIDGET (November 2026) */}
           <div className="glass-panel rounded-2xl p-5">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-sm font-bold text-white font-display flex items-center gap-2">
-                <CalendarIcon className="w-4 h-4 text-cyan-400" />
-                November 2026
-              </h4>
+              <h4 className="text-sm font-bold text-white font-display">November 2026</h4>
               <div className="flex items-center gap-1">
                 <button className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800/60">
                   <ChevronLeft className="w-3.5 h-3.5" />
@@ -472,62 +463,72 @@ export const FuturisticDashboard: React.FC = () => {
 
             {/* Calendar Days Grid */}
             <div className="grid grid-cols-7 gap-1 text-center text-xs font-mono">
-              {calendarDays.map((day) => {
-                const isToday = day === 17;
-                const isSelected = day === selectedDay;
-                const hasEvent = day === 17 || day === 24 || day === 5;
-
-                return (
-                  <button
-                    key={day}
-                    onClick={() => setSelectedDay(day)}
-                    className={`h-7 w-7 mx-auto rounded-lg flex items-center justify-center text-xs transition-colors relative ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-cyan-400 to-purple-600 text-white font-bold shadow-glow-cyan'
-                        : isToday
-                        ? 'border border-cyan-400 text-cyan-300 font-bold'
-                        : 'text-slate-300 hover:bg-slate-800/60'
-                    }`}
-                  >
-                    <span>{day}</span>
-                    {hasEvent && !isSelected && (
-                      <span className="w-1 h-1 rounded-full bg-cyan-400 absolute bottom-0.5"></span>
-                    )}
-                  </button>
-                );
-              })}
+              <span className="text-slate-600 py-1">1</span>
+              <span className="text-slate-400 py-1">2</span>
+              <span className="text-slate-400 py-1">3</span>
+              <span className="text-slate-400 py-1">4</span>
+              <span className="text-slate-400 py-1">5</span>
+              <span className="text-slate-400 py-1">6</span>
+              <span className="text-slate-400 py-1">7</span>
+              <span className="text-slate-400 py-1">8</span>
+              <span className="text-slate-400 py-1">9</span>
+              <span className="text-slate-400 py-1">10</span>
+              <span className="text-slate-400 py-1">11</span>
+              <span className="text-slate-400 py-1">12</span>
+              <span className="text-slate-400 py-1">13</span>
+              <span className="text-slate-400 py-1">14</span>
+              <span className="text-slate-400 py-1">15</span>
+              <span className="text-slate-400 py-1">16</span>
+              {/* Day 17 Active Highlighted */}
+              <span className="py-1 rounded-lg bg-gradient-to-r from-cyan-400 to-purple-600 text-white font-bold shadow-glow-pill">17</span>
+              <span className="text-slate-300 py-1">18</span>
+              <span className="text-slate-300 py-1">19</span>
+              <span className="text-slate-300 py-1">20</span>
+              <span className="text-slate-300 py-1">21</span>
+              <span className="text-slate-400 py-1">22</span>
+              <span className="text-slate-400 py-1">23</span>
+              <span className="text-slate-400 py-1">24</span>
+              <span className="text-slate-400 py-1">25</span>
+              <span className="text-slate-400 py-1">26</span>
+              <span className="text-slate-400 py-1">27</span>
+              <span className="text-slate-400 py-1">28</span>
+              <span className="text-slate-400 py-1">29</span>
+              <span className="text-slate-400 py-1">30</span>
             </div>
+          </div>
 
-            {/* TODAY'S SCHEDULE DETAILS */}
-            <div className="mt-5 pt-4 border-t border-cyan-500/15 space-y-2.5">
-              <div className="text-xs font-bold text-white font-display flex items-center justify-between">
-                <span>Today's Schedule</span>
-                <span className="text-[10px] font-mono text-cyan-400">Nov {selectedDay}</span>
+          {/* TODAY'S SCHEDULE (Matches Reference Events) */}
+          <div className="glass-panel rounded-2xl p-5">
+            <h4 className="text-sm font-bold text-white font-display flex items-center justify-between mb-4">
+              <span>Today's Schedule</span>
+              <span className="text-[10px] text-cyan-400 font-mono">3 Meetings</span>
+            </h4>
+
+            <div className="space-y-3">
+              {/* Event 1 */}
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/60 border-l-2 border-cyan-400">
+                <div className="text-xs font-mono text-cyan-400 font-bold whitespace-nowrap">10:00 AM</div>
+                <div>
+                  <div className="text-xs font-semibold text-slate-100">Project Sync - HQ</div>
+                  <div className="text-[11px] text-slate-400">Kerala Bank & AI Core architecture</div>
+                </div>
               </div>
 
-              <div className="space-y-2 text-xs">
-                <div className="p-2.5 rounded-xl bg-slate-900/70 border border-cyan-500/20 flex items-center justify-between">
-                  <div>
-                    <div className="font-semibold text-slate-200">Kerala Bank Review</div>
-                    <div className="text-[10px] text-slate-400 font-mono">11:00 AM • Staging Portal</div>
-                  </div>
-                  <span className="px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-400 font-mono text-[9px]">DONE</span>
+              {/* Event 2 */}
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/60 border-l-2 border-purple-500">
+                <div className="text-xs font-mono text-purple-400 font-bold whitespace-nowrap">02:00 PM</div>
+                <div>
+                  <div className="text-xs font-semibold text-slate-100">Client Review</div>
+                  <div className="text-[11px] text-slate-400">EQTech Academy website progress demo</div>
                 </div>
+              </div>
 
-                <div className="p-2.5 rounded-xl bg-slate-900/70 border border-purple-500/20 flex items-center justify-between">
-                  <div>
-                    <div className="font-semibold text-slate-200">EQTech Academy Sync</div>
-                    <div className="text-[10px] text-slate-400 font-mono">02:00 PM • Rescheduled</div>
-                  </div>
-                  <span className="px-2 py-0.5 rounded bg-purple-950/60 text-purple-300 font-mono text-[9px]">UPCOMING</span>
-                </div>
-
-                <div className="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 flex items-center justify-between">
-                  <div>
-                    <div className="font-semibold text-slate-200">AI Cluster Health Check</div>
-                    <div className="text-[10px] text-slate-400 font-mono">05:30 PM • 48 Tenants</div>
-                  </div>
-                  <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono text-[9px]">PENDING</span>
+              {/* Event 3 */}
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/60 border-l-2 border-emerald-400">
+                <div className="text-xs font-mono text-emerald-400 font-bold whitespace-nowrap">05:00 PM</div>
+                <div>
+                  <div className="text-xs font-semibold text-slate-100">Team Standup</div>
+                  <div className="text-[11px] text-slate-400">Daily retrospective & blocker review</div>
                 </div>
               </div>
             </div>

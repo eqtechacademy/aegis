@@ -226,3 +226,4 @@ export const MCPServerManager: React.FC = () => {
     </div>
   );
 };
+

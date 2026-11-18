@@ -498,3 +498,4 @@ export const LeadCaptureStudio: React.FC = () => {
     </div>
   );
 };
+

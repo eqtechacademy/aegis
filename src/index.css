@@ -5,7 +5,7 @@
 :root {
   --bg-gradient: radial-gradient(circle at 80% 15%, #18224b 0%, #090e24 45%, #050814 100%);
   --panel-bg: rgba(13, 25, 52, 0.72);
-  --panel-border: rgba(0, 240, 255, 0.16);
+  --panel-border: rgba(0, 240, 255, 0.14);
   --text-main: #F8FAFC;
   --text-muted: #94A3B8;
   --accent-cyan: #00F0FF;
@@ -13,139 +13,93 @@
   --header-bg: rgba(7, 13, 31, 0.75);
 }
 
-/* Light Theme */
-.light {
-  --bg-gradient: radial-gradient(circle at 80% 15%, #EDF2F7 0%, #E2E8F0 45%, #CBD5E1 100%);
-  --panel-bg: rgba(255, 255, 255, 0.85);
-  --panel-border: rgba(37, 99, 235, 0.2);
-  --text-main: #0F172A;
-  --text-muted: #475569;
-  --accent-cyan: #0284C7;
-  --accent-purple: #7C3AED;
-  --header-bg: rgba(248, 250, 252, 0.9);
-}
-
-/* JARVIS Sci-Fi HUD Theme */
-.jarvis {
-  --bg-gradient: radial-gradient(circle at 50% 30%, #04141E 0%, #020B11 60%, #010609 100%);
-  --panel-bg: rgba(3, 18, 26, 0.82);
-  --panel-border: rgba(38, 243, 255, 0.4);
-  --text-main: #D8F8FF;
-  --text-muted: #6296A8;
-  --accent-cyan: #26F3FF;
-  --accent-purple: #00E5FF;
-  --header-bg: rgba(2, 11, 17, 0.92);
-}
-
 body {
-  background: var(--bg-gradient);
-  color: var(--text-main);
+  background: radial-gradient(circle at 80% 15%, #18224b 0%, #090e24 45%, #050814 100%);
+  color: #F8FAFC;
   font-family: 'Plus Jakarta Sans', sans-serif;
   min-height: 100vh;
-  transition: background 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
 }
 
-/* Glass Panels */
+/* Glass Panels (Stitch Exact) */
 .glass-panel {
-  background: var(--panel-bg);
+  background: rgba(13, 25, 52, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--panel-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(0, 240, 255, 0.14);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
 }
 
 .glass-panel:hover {
-  border-color: rgba(168, 85, 247, 0.35);
+  border-color: rgba(168, 85, 247, 0.3);
 }
 
-.jarvis .glass-panel {
-  border-color: rgba(38, 243, 255, 0.35);
-  box-shadow: 0 0 20px rgba(38, 243, 255, 0.08);
-}
-
-.jarvis .glass-panel:hover {
-  border-color: rgba(38, 243, 255, 0.6);
-  box-shadow: 0 0 30px rgba(38, 243, 255, 0.2);
-}
-
-/* Brand Gradient Text */
+/* Brand Gradient Text (Stitch Ribbon Gradient) */
 .brand-gradient-text {
   background: linear-gradient(135deg, #00F0FF 0%, #3B82F6 45%, #A855F7 80%, #EC4899 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.jarvis .brand-gradient-text {
-  background: linear-gradient(135deg, #26F3FF 0%, #00B4D8 50%, #90E0EF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.cyan-purple-grad {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.85) 0%, rgba(147, 51, 234, 0.85) 100%);
 }
 
-/* HUD Scanlines */
-.hud-scanline {
-  background: repeating-linear-gradient(0deg, rgba(38, 243, 255, 0.025) 0px, rgba(38, 243, 255, 0.025) 1px, transparent 1px, transparent 4px);
+.neon-border-cyan {
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25), inset 0 0 15px rgba(0, 240, 255, 0.1);
 }
 
-.jarvis .hud-scanline {
-  background: repeating-linear-gradient(0deg, rgba(38, 243, 255, 0.06) 0px, rgba(38, 243, 255, 0.06) 1px, transparent 1px, transparent 3px);
+/* Stitch Dual Orbit Rings */
+.orbit-ring {
+  border: 1px dashed rgba(0, 240, 255, 0.25);
+  border-radius: 9999px;
+  animation: spin 30s linear infinite;
 }
 
-/* Hologram Wireframe Grid */
+.orbit-ring-inner {
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 9999px;
+  animation: spin-rev 20s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-rev {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes pulse-wave {
+  0%, 100% { height: 8px; }
+  50% { height: 28px; }
+}
+
+.wave-bar {
+  animation: pulse-wave 1.4s ease-in-out infinite;
+}
+
+/* Hologram Wireframe Earth Dots */
 .globe-grid {
   background-image: radial-gradient(rgba(0, 240, 255, 0.18) 1.5px, transparent 1.5px);
   background-size: 18px 18px;
 }
 
-/* Perspective 3D Stage & Floor Grid */
-.perspective-stage {
-  perspective: 1200px;
+/* HUD Scanlines */
+.hud-scanline {
+  background: repeating-linear-gradient(0deg, rgba(38, 243, 255, 0.02) 0px, rgba(38, 243, 255, 0.02) 1px, transparent 1px, transparent 4px);
 }
 
-.floor-grid {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(38, 243, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(38, 243, 255, 0.1) 1px, transparent 1px);
-  transform: rotateX(60deg);
-  transform-origin: center bottom;
-}
-
-.card-3d-elevated {
-  transform-style: preserve-3d;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-}
-
-.card-3d-elevated:hover {
-  transform: translateY(-6px) rotateX(4deg) rotateY(-2deg);
-  box-shadow: 0 25px 50px -12px rgba(0, 229, 255, 0.25);
-}
-
-/* Wave Bar Animations */
-@keyframes pulseWaveLive {
+/* Wave Bar Live */
+@keyframes voiceWaveLive {
   0%, 100% { height: 6px; opacity: 0.6; }
-  50% { height: 28px; opacity: 1; }
+  50% { height: 32px; opacity: 1; }
 }
 
 .wave-bar-live {
-  animation: pulseWaveLive 1.1s ease-in-out infinite;
-}
-
-@keyframes robotIdleGlow {
-  0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.3)); }
-  50% { transform: translateY(-3px) scale(1.01); filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.5)); }
-}
-
-.robot-motion-idle {
-  animation: robotIdleGlow 3.5s ease-in-out infinite;
-}
-
-@keyframes robotWalkCycle {
-  0% { transform: translateY(0px) rotate(0deg); }
-  25% { transform: translateY(-8px) rotate(-1deg); }
-  50% { transform: translateY(0px) rotate(0deg); }
-  75% { transform: translateY(-8px) rotate(1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
+  animation: voiceWaveLive 1.1s ease-in-out infinite;
 }
 
 .animate-walk {
