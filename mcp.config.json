@@ -1,0 +1,48 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema.json",
+  "name": "aegis-mcp-suite",
+  "version": "1.0.0",
+  "description": "AGIES JARVIS-Inspired AI Voice Agent & Multi-Tenant SaaS MCP Suite",
+  "mcpServers": {
+    "google-workspace": {
+      "command": "node",
+      "args": ["./src/services/mcp/servers/googleWorkspaceServer.js"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${VITE_GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${VITE_GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_DRIVE_FOLDER_ID": "${VITE_GOOGLE_DRIVE_FOLDER_ID}"
+      },
+      "description": "Google Drive, Gmail, Google Calendar, Sheets, and Docs integration for data push and retrieval"
+    },
+    "meta-graph-studio": {
+      "command": "node",
+      "args": ["./src/services/mcp/servers/metaGraphStudioServer.js"],
+      "env": {
+        "META_APP_ID": "${VITE_META_APP_ID}",
+        "META_APP_SECRET": "${VITE_META_APP_SECRET}",
+        "META_PAGE_ACCESS_TOKEN": "${VITE_META_PAGE_ACCESS_TOKEN}",
+        "META_INSTAGRAM_ACCOUNT_ID": "${VITE_META_INSTAGRAM_ACCOUNT_ID}"
+      },
+      "description": "Meta Graph API for capturing Facebook & Instagram leads and publishing posts via Studio API"
+    },
+    "stitch-studio": {
+      "command": "node",
+      "args": ["./src/services/mcp/servers/stitchStudioServer.js"],
+      "env": {
+        "STITCH_PROJECT_ID": "13358164649773425082"
+      },
+      "description": "Google Stitch Studio project 13358164649773425082 sync and design system bridge"
+    },
+    "neural-brains": {
+      "command": "node",
+      "args": ["./src/services/mcp/servers/neuralBrainsServer.js"],
+      "env": {
+        "OPENAI_API_KEY": "${VITE_OPENAI_API_KEY}",
+        "GEMINI_API_KEY": "${VITE_GEMINI_API_KEY}",
+        "ANTHROPIC_API_KEY": "${VITE_ANTHROPIC_API_KEY}",
+        "PERPLEXITY_API_KEY": "${VITE_PERPLEXITY_API_KEY}"
+      },
+      "description": "Unified routing across ChatGPT GPT-4o, Google Gemini, Anthropic Claude, Claude Code, and Antigravity"
+    }
+  }
+}

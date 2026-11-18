@@ -413,3 +413,4 @@ export const DesktopAppNative: React.FC = () => {
     </div>
   );
 };
+

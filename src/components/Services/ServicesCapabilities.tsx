@@ -209,3 +209,4 @@ export const ServicesCapabilities: React.FC = () => {
     </div>
   );
 };
+

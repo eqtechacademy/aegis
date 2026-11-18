@@ -17,7 +17,9 @@ import {
   ListOrdered,
   Sparkles,
   Monitor,
-  Smartphone
+  Smartphone,
+  Users,
+  Server
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -43,6 +45,20 @@ export const Sidebar: React.FC = () => {
       icon: ListOrdered,
       badge: '4 Tiers',
       roles: ['super_admin', 'tenant_admin', 'user'],
+    },
+    {
+      id: 'leads' as ViewMode,
+      label: 'Meta & Google Leads',
+      icon: Users,
+      badge: 'Capture',
+      roles: ['super_admin', 'tenant_admin', 'user'],
+    },
+    {
+      id: 'mcp' as ViewMode,
+      label: 'MCP Server Manager',
+      icon: Server,
+      badge: '5 MCPs',
+      roles: ['super_admin', 'tenant_admin'],
     },
     {
       id: 'memory' as ViewMode,

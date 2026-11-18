@@ -13,7 +13,9 @@ export type ViewMode =
   | 'robot3d' 
   | 'auth'
   | 'memory'
-  | 'activity';
+  | 'activity'
+  | 'leads'
+  | 'mcp';
 
 export type UserRole = 'super_admin' | 'tenant_admin' | 'user';
 
@@ -160,3 +162,100 @@ export interface AuditLogEntry {
   outcome: 'Success' | 'Pending' | 'Denied' | 'Reverted';
   details: string;
 }
+
+// MCP (Model Context Protocol) Server & Tool Interfaces
+export type MCPServerStatus = 'connected' | 'standby' | 'error' | 'syncing';
+
+export interface MCPToolParameter {
+  name: string;
+  type: 'string' | 'number' | 'boolean' | 'object' | 'array';
+  description: string;
+  required: boolean;
+  default?: any;
+}
+
+export interface MCPTool {
+  id: string;
+  name: string;
+  displayName: string;
+  category: 'google' | 'meta' | 'stitch' | 'nllm' | 'data_push' | 'system';
+  description: string;
+  serverName: string;
+  approvalTier: ApprovalTier;
+  parameters: MCPToolParameter[];
+  isAvailable: boolean;
+  executionsCount: number;
+  lastExecuted?: string;
+}
+
+export interface MCPServerConfig {
+  id: string;
+  name: string;
+  endpoint: string;
+  protocol: 'stdio' | 'sse' | 'http' | 'in_process';
+  status: MCPServerStatus;
+  toolsCount: number;
+  authHeaderMasked?: string;
+  category: 'google_workspace' | 'meta_graph' | 'stitch_studio' | 'neural_brains' | 'cloud_storage';
+  description: string;
+}
+
+// Universal Neural Brain / NLLM Interface
+export type NeuralBrainId = 
+  | 'chatgpt' 
+  | 'gemini' 
+  | 'claude' 
+  | 'claude_code' 
+  | 'antigravity' 
+  | 'perplexity';
+
+export interface NeuralBrainInfo {
+  id: NeuralBrainId;
+  name: string;
+  provider: string;
+  model: string;
+  contextWindow: string;
+  status: 'active' | 'ready' | 'standby';
+  latencyMs: number;
+  capabilities: string[];
+  description: string;
+  badge: string;
+}
+
+// Meta & Google Lead Capture Interface
+export interface LeadRecord {
+  id: string;
+  tenantId: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  company?: string;
+  source: 'meta_facebook' | 'meta_instagram' | 'google_ads' | 'website_form';
+  status: 'new' | 'contacted' | 'qualified' | 'converted';
+  campaignName: string;
+  adSetId?: string;
+  formId?: string;
+  timestamp: string;
+  voiceEnrichedNotes?: string;
+  budgetEstimated?: string;
+}
+
+// Meta Studio Social Post Interface
+export interface SocialPostRecord {
+  id: string;
+  tenantId: string;
+  platform: 'facebook' | 'instagram' | 'both';
+  pageId: string;
+  pageName: string;
+  content: string;
+  mediaUrl?: string;
+  status: 'published' | 'scheduled' | 'draft';
+  scheduledTime?: string;
+  publishedTime?: string;
+  impressions?: number;
+  reach?: number;
+  likes?: number;
+  comments?: number;
+  studioPromptRef?: string;
+}
+

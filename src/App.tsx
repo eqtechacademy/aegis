@@ -17,6 +17,8 @@ import { MobileCompanion } from './components/Mobile/MobileCompanion';
 import { AuthenticationModal } from './components/Auth/AuthenticationModal';
 import { MemoryCenter } from './components/Memory/MemoryCenter';
 import { ActivityTasksCenter } from './components/Tasks/ActivityTasksCenter';
+import { LeadCaptureStudio } from './components/Marketing/LeadCaptureStudio';
+import { MCPServerManager } from './components/MCP/MCPServerManager';
 import { Zap, Volume2, ShieldAlert } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -35,6 +37,10 @@ export const App: React.FC = () => {
         return <ActivityTasksCenter />;
       case 'memory':
         return <MemoryCenter />;
+      case 'leads':
+        return <LeadCaptureStudio />;
+      case 'mcp':
+        return <MCPServerManager />;
       case 'robot3d':
         return <RobotExperience3D />;
       case 'automations':

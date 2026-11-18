@@ -14,9 +14,11 @@ import {
   ExternalLink,
   Keyboard,
   Layers,
-  Sparkles
+  Sparkles,
+  Cpu
 } from 'lucide-react';
 import { RobotMotionState } from '../../types';
+import { availableNeuralBrains } from '../../services/brain/neuralBrainRouter';
 
 export const RoboticVoiceAssistant: React.FC = () => {
   const { 
@@ -32,7 +34,9 @@ export const RoboticVoiceAssistant: React.FC = () => {
     speakText,
     isSpeaking,
     triggerWakeWord,
-    isWakeWordActive
+    isWakeWordActive,
+    activeBrainId,
+    setActiveBrainId
   } = useApp();
 
   const [inputVal, setInputVal] = useState('');
@@ -179,6 +183,50 @@ export const RoboticVoiceAssistant: React.FC = () => {
 
         </div>
 
+        {/* Active Neural Brain Selector */}
+        <div className="p-3 rounded-lg bg-dark-surface border border-dark-outline/50 space-y-2 font-mono">
+          <div className="text-cyan-glow font-bold flex items-center justify-between text-[10px]">
+            <span className="flex items-center gap-1.5 uppercase">
+              <Cpu className="w-3.5 h-3.5 text-cyan-400" />
+              Neural Brain Core
+            </span>
+            <span className="text-[9px] text-cyan-300 font-bold px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/30">
+              6 NLLMs Active
+            </span>
+          </div>
+
+          <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+            {availableNeuralBrains.map((brain) => {
+              const isSelected = activeBrainId === brain.id;
+              return (
+                <button
+                  key={brain.id}
+                  onClick={() => {
+                    setActiveBrainId(brain.id);
+                    speakText(`Switched neural core to ${brain.name}`);
+                  }}
+                  className={`w-full text-left p-2 rounded transition-all flex items-center justify-between text-[11px] ${
+                    isSelected
+                      ? 'bg-cyan-950/70 border border-cyan-400/80 text-white shadow-sm shadow-cyan-950'
+                      : 'bg-dark-surface-container/60 hover:bg-dark-surface-container border border-dark-outline/30 text-dark-on-surface/80'
+                  }`}
+                >
+                  <div className="truncate pr-1">
+                    <div className="font-bold flex items-center gap-1.5 text-xs text-white">
+                      <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-cyan-400 animate-pulse' : 'bg-slate-600'}`} />
+                      <span className="truncate">{brain.name}</span>
+                    </div>
+                    <div className="text-[9px] text-dark-on-surface/50 truncate font-mono">{brain.provider} · {brain.badge}</div>
+                  </div>
+                  <span className="text-[9px] font-mono text-cyan-400 shrink-0 font-bold">
+                    {brain.latencyMs}ms
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Voice Capability Checklist Info */}
         <div className="p-3 rounded-lg bg-dark-surface border border-dark-outline/50 space-y-1.5 font-mono text-[10px] sm:text-[11px] text-dark-on-surface/70">
           <div className="text-cyan-glow font-bold flex items-center gap-1.5 uppercase text-[9px] sm:text-[10px]">
@@ -201,8 +249,9 @@ export const RoboticVoiceAssistant: React.FC = () => {
         <div className="flex-1 overflow-y-auto space-y-4 sm:space-y-5 pr-1 sm:pr-2">
           
           <div className="flex items-center justify-center my-1 sm:my-2">
-            <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-dark-surface-container border border-dark-outline font-mono text-[9px] sm:text-[10px] text-dark-on-surface/50 uppercase tracking-widest text-center">
-              Live Voice Session · Continuous 48kHz Stream
+            <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-dark-surface-container border border-dark-outline font-mono text-[9px] sm:text-[10px] text-dark-on-surface/50 uppercase tracking-widest text-center flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Live Voice Stream · Active Brain: <strong className="text-cyan-400 font-bold">{availableNeuralBrains.find(b => b.id === activeBrainId)?.name || 'Gemini 1.5 Pro'}</strong></span>
             </span>
           </div>
 

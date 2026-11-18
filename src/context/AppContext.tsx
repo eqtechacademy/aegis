@@ -14,8 +14,10 @@ import {
   VoiceTranscriptLog,
   MemoryRecord,
   ToolTaskAction,
-  AuditLogEntry
+  AuditLogEntry,
+  NeuralBrainId
 } from '../types';
+import { executeUnifiedNeuralBrain } from '../services/brain/neuralBrainRouter';
 
 interface AppContextType {
   view: ViewMode;
@@ -55,6 +57,10 @@ interface AppContextType {
   setShowAuthModal: (show: boolean) => void;
   triggerWakeWord: () => void;
   isWakeWordActive: boolean;
+  
+  // Neural Brain Controller
+  activeBrainId: NeuralBrainId;
+  setActiveBrainId: (b: NeuralBrainId) => void;
   
   // Personal Memory Controls
   memories: MemoryRecord[];
@@ -540,6 +546,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       if (v === 'robot3d') return 'robot3d';
       if (v === 'memory') return 'memory';
       if (v === 'activity') return 'activity';
+      if (v === 'leads') return 'leads';
+      if (v === 'mcp') return 'mcp';
     }
     return 'dashboard';
   };
@@ -563,6 +571,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [payments] = useState<PaymentGateway[]>(initialPayments);
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
   const [isWakeWordActive, setIsWakeWordActive] = useState<boolean>(false);
+
+  // Neural Brain Controller state
+  const [activeBrainId, setActiveBrainId] = useState<NeuralBrainId>('gemini');
 
   // Memory states
   const [memories, setMemories] = useState<MemoryRecord[]>(initialMemories);
@@ -722,8 +733,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setTimeout(() => setIsWakeWordActive(false), 3500);
   };
 
-  // Send message
-  const sendMessage = (text: string, isVoice = false) => {
+  // Send message with Unified Neural Brain & Voice Engine
+  const sendMessage = async (text: string, isVoice = false) => {
     if (!text.trim()) return;
 
     // If assistant was speaking, user speaking triggers barge-in
@@ -740,45 +751,32 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setMessages((prev) => [...prev, userMsg]);
     setOperationalState('processing');
 
-    setTimeout(() => {
-      let replyText = `Understood. I have initiated the query across our autonomous Chromium browser on Monitor #2. Task logged to Kerala Bank workspace neural memory.`;
-      let proof;
-      let question;
-      let options;
-
-      const lower = text.toLowerCase();
-      if (lower.includes('task') || lower.includes('deadline')) {
-        replyText = `You have 12 assigned tasks this sprint, with 2 critical deliverables due today: 'Kerala Bank eKYC Biometric Testing' and 'EQTech Academy Website v2 Review'.`;
-        question = "Would you like me to reschedule the EQTech review to 2 PM to free up your morning?";
-        options = ["Yes, reschedule to 2 PM", "No, keep current timetable"];
-      } else if (lower.includes('tenant') || lower.includes('client')) {
-        replyText = `Currently managing 48 active corporate tenants. 19 tenants are on the 14-day free evaluation, with 29 converted to our ₹699+GST monthly subscription.`;
-      } else if (lower.includes('demo') || lower.includes('briefing')) {
-        replyText = `Demo workflow compiled. Staging portal initialized, yesterday's eKYC metrics pulled, and executive presentation rendered on secondary monitor.`;
-        proof = {
-          title: 'AUTONOMOUS CDP SCRAPE',
-          tabs: [{ url: 'keralabank.eqmaxtech.com/staging', note: 'Extracted eKYC stats' }],
-          vectorNode: 'VECTOR NODE #8420',
-        };
-      } else if (lower.includes('malayalam') || spokenLanguage === 'ml') {
-        replyText = `തീർച്ചയായും, ഞാൻ സഹായിക്കാം. കേരള ബാങ്ക് വർക്ക്സ്പേസ് എല്ലാ വിവരങ്ങളും സുരക്ഷിതമായി സൂക്ഷിച്ചിരിക്കുന്നു. (Certainly, I can assist you. Kerala Bank workspace data is secure.)`;
-      }
+    try {
+      const res = await executeUnifiedNeuralBrain({
+        prompt: text,
+        brainId: activeBrainId,
+        spokenLanguage: spokenLanguage,
+        tenantId: activeTenantId,
+        userName: 'Unnikrishnan',
+      });
 
       const robotMsg: ChatMessage = {
         id: `msg-${Date.now() + 1}`,
         sender: 'aegis',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        text: replyText,
+        text: res.answerText,
         badge: 'VOICE SYNTHESIS',
-        audioLatency: '0.11s',
-        modelUsed: 'Anthropic Claude 3.5 Sonnet',
-        browserProof: proof,
-        question,
-        options,
+        audioLatency: `${(res.latencyMs / 1000).toFixed(2)}s`,
+        modelUsed: res.brainUsed.name,
+        browserProof: res.toolInvoked ? {
+          title: `MCP TOOL: ${res.toolInvoked.toUpperCase()}`,
+          tabs: [{ url: `mcp://tool/${res.toolInvoked}`, note: JSON.stringify(res.toolResult || 'Executed') }],
+          vectorNode: res.vectorNodeId || `NODE #${Math.floor(1000 + Math.random() * 9000)}`,
+        } : undefined,
       };
 
       setMessages((prev) => [...prev, robotMsg]);
-      speakText(replyText);
+      speakText(res.spokenText);
 
       // Add to transcript log
       const newLog: VoiceTranscriptLog = {
@@ -787,14 +785,21 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         role: role === 'super_admin' ? 'Master Admin' : role === 'tenant_admin' ? 'Tenant Admin' : 'Workspace Member',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         userSpeech: text,
-        agentResponse: replyText,
+        agentResponse: res.answerText,
         confidence: 99.4,
-        intent: 'Work Execution & Assistant Query',
+        intent: res.toolInvoked ? `MCP Action: ${res.toolInvoked}` : 'Work Execution & Assistant Query',
       };
       setTranscripts((prev) => [newLog, ...prev]);
 
+      // If action requires Tier C / D approval
+      if (res.requiresApproval && res.approvalTask) {
+        setTasks((prev) => [res.approvalTask, ...prev]);
+        setActiveApprovalModalTask(res.approvalTask);
+      }
+
       // If memory capture not paused, potentially record relevant context
-      if (!isMemoryCapturePaused && (lower.includes('remember') || lower.includes('prefer') || lower.includes('always'))) {
+      const lower = text.toLowerCase();
+      if (!isMemoryCapturePaused && (lower.includes('remember') || lower.includes('prefer') || lower.includes('always') || lower.includes('note'))) {
         const newMem: MemoryRecord = {
           id: `mem-${Date.now()}`,
           tenantId: activeTenantId,
@@ -809,7 +814,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         };
         setMemories((prev) => [newMem, ...prev]);
       }
-    }, 700);
+    } catch (err) {
+      console.error('Error in executeUnifiedNeuralBrain:', err);
+      const fallbackMsg: ChatMessage = {
+        id: `msg-${Date.now() + 1}`,
+        sender: 'aegis',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        text: "I encountered an error executing the query through the neural brain pipeline. Fallback active.",
+        badge: 'ERROR FALLBACK',
+      };
+      setMessages((prev) => [...prev, fallbackMsg]);
+      setOperationalState('idle');
+    }
   };
 
   const addTenant = (newT: Omit<Tenant, 'id' | 'transcriptsCount'>) => {
@@ -999,6 +1015,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setShowAuthModal,
         triggerWakeWord,
         isWakeWordActive,
+        
+        activeBrainId,
+        setActiveBrainId,
         
         memories,
         addMemory,

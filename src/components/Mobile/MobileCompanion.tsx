@@ -222,3 +222,4 @@ export const MobileCompanion: React.FC = () => {
     </div>
   );
 };
+
