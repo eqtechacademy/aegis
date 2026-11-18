@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
 
 :root {
   --bg-gradient: radial-gradient(circle at 80% 15%, #18224b 0%, #090e24 45%, #050814 100%);
