@@ -14,7 +14,6 @@ import {
   TrendingUp,
   AlertTriangle
 } from 'lucide-react';
-import { mockTenants } from '../../services/tenant/tenantService';
 
 export const SuperAdminControlCenter: React.FC = () => {
   const { 
@@ -316,3 +315,4 @@ export const SuperAdminControlCenter: React.FC = () => {
     </div>
   );
 };
+

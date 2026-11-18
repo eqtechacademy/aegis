@@ -230,3 +230,4 @@ export const KnowledgeBaseHub: React.FC = () => {
     </div>
   );
 };
+

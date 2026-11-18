@@ -251,10 +251,10 @@ export const SettingsPlatformHub: React.FC = () => {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[11px] font-mono text-purple-400 font-semibold uppercase">
-                        {brain.role}
+                        {brain.badge || brain.provider}
                       </span>
                       <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300">
-                        {brain.latency}
+                        {brain.latencyMs}ms
                       </span>
                     </div>
                     <p className="text-xs font-bold text-white mb-1">{brain.name}</p>
@@ -412,3 +412,4 @@ export const SettingsPlatformHub: React.FC = () => {
     </div>
   );
 };
+
