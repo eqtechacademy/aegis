@@ -4,49 +4,59 @@ import { Sidebar } from './components/Navigation/Sidebar';
 import { Header } from './components/Navigation/Header';
 import { Footer } from './components/Common/Footer';
 import { FuturisticDashboard } from './components/Dashboard/FuturisticDashboard';
-import { SuperAdminPortal } from './components/Admin/SuperAdminPortal';
-import { TenantWorkspaceSettings } from './components/Tenant/TenantWorkspaceSettings';
+import { ProjectsHub } from './components/Projects/ProjectsHub';
+import { TasksActionsHub } from './components/Tasks/TasksActionsHub';
+import { TeamDirectoryHub } from './components/Team/TeamDirectoryHub';
+import { ReportsAnalyticsHub } from './components/Reports/ReportsAnalyticsHub';
+import { KnowledgeBaseHub } from './components/Knowledge/KnowledgeBaseHub';
+import { SettingsPlatformHub } from './components/Settings/SettingsPlatformHub';
+import { SuperAdminControlCenter } from './components/Admin/SuperAdminControlCenter';
+import { JarvisVoiceCore } from './components/Voice/JarvisVoiceCore';
 import { RoboticVoiceAssistant } from './components/Voice/RoboticVoiceAssistant';
+import { TacticalCommandCenter } from './components/Command/TacticalCommandCenter';
 import { RobotExperience3D } from './components/Robot3D/RobotExperience3D';
-import { AutomationWorkflowSetup } from './components/Automations/AutomationWorkflowSetup';
-import { ApiIntegrationsVault } from './components/Integrations/ApiIntegrationsVault';
 import { SubscriptionPricing } from './components/Pricing/SubscriptionPricing';
 import { ServicesCapabilities } from './components/Services/ServicesCapabilities';
 import { DesktopAppNative } from './components/Desktop/DesktopAppNative';
 import { MobileCompanion } from './components/Mobile/MobileCompanion';
 import { AuthenticationModal } from './components/Auth/AuthenticationModal';
-import { MemoryCenter } from './components/Memory/MemoryCenter';
-import { ActivityTasksCenter } from './components/Tasks/ActivityTasksCenter';
 import { LeadCaptureStudio } from './components/Marketing/LeadCaptureStudio';
 import { MCPServerManager } from './components/MCP/MCPServerManager';
-import { Zap, Volume2, ShieldAlert } from 'lucide-react';
+import { Zap } from 'lucide-react';
 
 export const App: React.FC = () => {
   const { view, isWakeWordActive } = useApp();
 
   const renderActiveView = () => {
     switch (view) {
-      case 'admin':
-        return <SuperAdminPortal />;
+      case 'projects':
       case 'tenant':
-        return <TenantWorkspaceSettings />;
+        return <ProjectsHub />;
+      case 'tasks':
+      case 'activity':
+        return <TasksActionsHub />;
+      case 'team':
+        return <TeamDirectoryHub />;
+      case 'reports':
+        return <ReportsAnalyticsHub />;
+      case 'knowledge':
+      case 'memory':
+        return <KnowledgeBaseHub />;
+      case 'settings':
+      case 'integrations':
+        return <SettingsPlatformHub />;
+      case 'admin':
+        return <SuperAdminControlCenter />;
+      case 'assistant':
+      case 'jarvis':
+        return <JarvisVoiceCore />;
       case 'voice':
       case 'chat':
         return <RoboticVoiceAssistant />;
-      case 'activity':
-        return <ActivityTasksCenter />;
-      case 'memory':
-        return <MemoryCenter />;
-      case 'leads':
-        return <LeadCaptureStudio />;
-      case 'mcp':
-        return <MCPServerManager />;
+      case 'command':
+        return <TacticalCommandCenter />;
       case 'robot3d':
         return <RobotExperience3D />;
-      case 'automations':
-        return <AutomationWorkflowSetup />;
-      case 'integrations':
-        return <ApiIntegrationsVault />;
       case 'pricing':
         return <SubscriptionPricing />;
       case 'services':
@@ -55,6 +65,10 @@ export const App: React.FC = () => {
         return <DesktopAppNative />;
       case 'mobile':
         return <MobileCompanion />;
+      case 'leads':
+        return <LeadCaptureStudio />;
+      case 'mcp':
+        return <MCPServerManager />;
       case 'dashboard':
       default:
         return <FuturisticDashboard />;
@@ -68,7 +82,7 @@ export const App: React.FC = () => {
       <div className="fixed top-1/2 -right-40 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none z-0" />
       <div className="fixed -bottom-40 left-1/3 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none z-0" />
 
-      {/* Persistent Left Navigation Sidebar */}
+      {/* Persistent Left Navigation Sidebar (Stitch Exact) */}
       <Sidebar />
 
       {/* Main Dynamic Viewport */}
@@ -106,4 +120,3 @@ export const App: React.FC = () => {
 };
 
 export default App;
-

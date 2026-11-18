@@ -2,15 +2,16 @@ import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   Home, 
-  LayoutDashboard, 
   FolderKanban, 
   CheckSquare, 
   Users, 
   Zap, 
-  Database,
   BarChart2, 
   BookOpen, 
-  Settings 
+  Settings,
+  Terminal,
+  ShieldCheck,
+  Bot
 } from 'lucide-react';
 import { ViewMode } from '../../types';
 
@@ -24,58 +25,63 @@ export const Sidebar: React.FC = () => {
       icon: Home,
     },
     {
-      id: 'robot3d' as ViewMode,
-      label: 'Dashboard',
-      icon: LayoutDashboard,
-    },
-    {
-      id: 'tenant' as ViewMode,
+      id: 'projects' as ViewMode,
       label: 'Projects',
       icon: FolderKanban,
     },
     {
-      id: 'activity' as ViewMode,
+      id: 'tasks' as ViewMode,
       label: 'Tasks',
       icon: CheckSquare,
     },
     {
-      id: 'tenant' as ViewMode,
+      id: 'team' as ViewMode,
       label: 'Team',
       icon: Users,
     },
     {
-      id: 'voice' as ViewMode,
+      id: 'assistant' as ViewMode,
       label: 'AI Assistant',
       icon: Zap,
       isSpecial: true,
     },
     {
-      id: 'leads' as ViewMode,
-      label: 'Leads & MCP',
-      icon: Database,
+      id: 'command' as ViewMode,
+      label: 'Command Center',
+      icon: Terminal,
     },
     {
-      id: 'admin' as ViewMode,
+      id: 'robot3d' as ViewMode,
+      label: '3D Robot Machine',
+      icon: Bot,
+    },
+    {
+      id: 'reports' as ViewMode,
       label: 'Reports',
       icon: BarChart2,
     },
     {
-      id: 'memory' as ViewMode,
+      id: 'knowledge' as ViewMode,
       label: 'Knowledge',
       icon: BookOpen,
     },
     {
-      id: 'integrations' as ViewMode,
+      id: 'settings' as ViewMode,
       label: 'Settings',
       icon: Settings,
+    },
+    {
+      id: 'admin' as ViewMode,
+      label: 'Super Admin',
+      icon: ShieldCheck,
     },
   ];
 
   return (
-    <aside className="w-64 flex-shrink-0 bg-[#070D1F]/90 backdrop-blur-xl border-r border-cyan-500/15 flex flex-col justify-between p-5 z-20 h-screen sticky top-0 overflow-y-auto">
+    <aside className="w-64 flex-shrink-0 bg-[#070D1F]/95 backdrop-blur-xl border-r border-cyan-500/15 flex flex-col justify-between p-5 z-20 h-screen sticky top-0 overflow-y-auto">
       <div className="space-y-6">
         
-        {/* BRAND LOGO (Gradient Ribbon "A" + Typography) */}
+        {/* BRAND LOGO (Gradient Ribbon "A" + Typography - Stitch Exact) */}
         <div 
           onClick={() => setView('dashboard')}
           className="flex items-center gap-3 px-2 pt-1 cursor-pointer group"
@@ -113,16 +119,21 @@ export const Sidebar: React.FC = () => {
         </div>
 
         {/* NAVIGATION MENU (Exact Stitch Hierarchy) */}
-        <nav className="space-y-1.5 pt-2">
+        <nav className="space-y-1.5 pt-1">
           {navItems.map((item, index) => {
             const Icon = item.icon;
-            const isActive = view === item.id || (item.label === 'Home' && view === 'dashboard');
+            const isActive = view === item.id || 
+              (item.id === 'assistant' && (view === 'voice' || view === 'jarvis')) ||
+              (item.id === 'settings' && view === 'integrations') ||
+              (item.id === 'knowledge' && view === 'memory') ||
+              (item.id === 'tasks' && view === 'activity') ||
+              (item.id === 'projects' && view === 'tenant');
 
             if (item.isSpecial) {
               return (
                 <button
                   key={`${item.id}-${index}`}
-                  onClick={() => setView(item.id)}
+                  onClick={() => setView('jarvis')}
                   className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-left ${
                     isActive
                       ? 'bg-gradient-to-r from-cyan-500/90 to-purple-600/90 text-white shadow-glow-pill font-semibold'
@@ -133,7 +144,7 @@ export const Sidebar: React.FC = () => {
                     <Icon className="w-4 h-4 text-cyan-400 animate-pulse" />
                     <span>{item.label}</span>
                   </div>
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-glow-cyan"></span>
+                  <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-glow-cyan animate-ping"></span>
                 </button>
               );
             }
@@ -142,7 +153,7 @@ export const Sidebar: React.FC = () => {
               <button
                 key={`${item.id}-${index}`}
                 onClick={() => setView(item.id)}
-                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all text-left ${
+                className={`w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-sm font-medium transition-all text-left ${
                   isActive
                     ? 'bg-gradient-to-r from-cyan-500/90 to-purple-600/90 text-white shadow-glow-pill font-semibold'
                     : 'text-slate-300 hover:text-cyan-300 hover:bg-slate-800/40'

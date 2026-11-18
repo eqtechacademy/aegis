@@ -60,10 +60,10 @@ export const RoboticVoiceAssistant: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-[calc(100vh-4rem)]">
+    <div className="flex-1 flex flex-col lg:flex-row lg:h-[calc(100vh-4rem)] min-h-[calc(100vh-4rem)] overflow-hidden">
 
       {/* LEFT PANEL: 3D ANIMATED ROBOT MACHINE WITH LIVE MOTION STATES */}
-      <aside className="w-full lg:w-[420px] xl:w-[460px] border-b lg:border-b-0 lg:border-r border-cyan-500/15 bg-dark-surface-container/60 p-4 sm:p-5 flex flex-col justify-between shrink-0 space-y-4">
+      <aside className="w-full lg:w-[400px] xl:w-[440px] border-b lg:border-b-0 lg:border-r border-cyan-500/15 bg-dark-surface-container/60 p-4 sm:p-5 flex flex-col justify-between shrink-0 space-y-4 lg:overflow-y-auto">
         
         {/* Live Embodied Robot Motion Display Card */}
         <div className="rounded-xl bg-dark-surface border-2 border-cyan-glow/30 p-3 sm:p-4 shadow-[0_0_25px_rgba(0,229,255,0.08)] relative overflow-hidden flex flex-col justify-between">
@@ -199,10 +199,10 @@ export const RoboticVoiceAssistant: React.FC = () => {
       </aside>
 
       {/* RIGHT PANEL: CONVERSATIONAL VOICE CHAT */}
-      <main className="flex-1 flex flex-col justify-between bg-dark-surface p-4 sm:p-6 overflow-hidden">
+      <main className="flex-1 flex flex-col justify-between bg-dark-surface p-4 sm:p-6 overflow-hidden min-h-0">
         
         {/* Chat Dialogue Stream Container */}
-        <div className="flex-1 overflow-y-auto space-y-4 sm:space-y-5 pr-1 sm:pr-2">
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-4 sm:space-y-5 pr-1 sm:pr-2">
           
           <div className="flex items-center justify-center my-1 sm:my-2">
             <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-dark-surface-container border border-dark-outline font-mono text-[9px] sm:text-[10px] text-dark-on-surface/50 uppercase tracking-widest text-center">

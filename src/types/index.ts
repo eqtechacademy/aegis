@@ -1,21 +1,30 @@
 export type ViewMode = 
   | 'dashboard' 
+  | 'projects'
+  | 'tasks'
+  | 'team'
+  | 'assistant'
+  | 'voice' 
+  | 'jarvis'
+  | 'command'
+  | 'reports'
+  | 'knowledge'
+  | 'settings'
   | 'admin' 
   | 'tenant' 
-  | 'chat' 
-  | 'voice' 
-  | 'automations' 
-  | 'integrations' 
   | 'pricing' 
   | 'services'
   | 'desktop'
   | 'mobile'
   | 'robot3d' 
+  | 'leads'
+  | 'mcp'
   | 'auth'
   | 'memory'
   | 'activity'
-  | 'leads'
-  | 'mcp';
+  | 'integrations'
+  | 'automations'
+  | 'chat';
 
 export type UserRole = 'super_admin' | 'tenant_admin' | 'user';
 
