@@ -370,3 +370,4 @@ export const ActivityTasksCenter: React.FC = () => {
     </div>
   );
 };
+

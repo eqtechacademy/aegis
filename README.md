@@ -108,3 +108,4 @@ Add the following variable names in your **Vercel Project Settings > Environment
 
 Developed by **EQMax Tech Solutions**.  
 All rights reserved.
+

@@ -422,3 +422,4 @@ export const MemoryCenter: React.FC = () => {
     </div>
   );
 };
+
