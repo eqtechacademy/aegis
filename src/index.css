@@ -38,6 +38,7 @@ body {
 .brand-gradient-text {
   background: linear-gradient(135deg, #00F0FF 0%, #3B82F6 45%, #A855F7 80%, #EC4899 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -104,29 +105,6 @@ body {
 
 .animate-walk {
   animation: robotWalkCycle 1.6s ease-in-out infinite;
-}
-
-/* Orbit Rings */
-.orbit-ring {
-  border: 1px dashed rgba(0, 240, 255, 0.25);
-  border-radius: 9999px;
-  animation: spin 30s linear infinite;
-}
-
-.orbit-ring-inner {
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  border-radius: 9999px;
-  animation: spin-rev 20s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes spin-rev {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
 }
 
 /* Custom Scrollbar */
