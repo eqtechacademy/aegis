@@ -534,6 +534,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       if (v === 'automations') return 'automations';
       if (v === 'integrations') return 'integrations';
       if (v === 'pricing') return 'pricing';
+      if (v === 'services') return 'services';
+      if (v === 'desktop') return 'desktop';
+      if (v === 'mobile') return 'mobile';
       if (v === 'robot3d') return 'robot3d';
       if (v === 'memory') return 'memory';
       if (v === 'activity') return 'activity';

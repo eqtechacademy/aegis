@@ -14,7 +14,10 @@ import {
   Lock,
   Layers,
   Brain,
-  ListOrdered
+  ListOrdered,
+  Sparkles,
+  Monitor,
+  Smartphone
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -88,6 +91,27 @@ export const Sidebar: React.FC = () => {
       label: 'Subscription & Pricing',
       icon: CreditCard,
       badge: '₹699+GST',
+      roles: ['super_admin', 'tenant_admin', 'user'],
+    },
+    {
+      id: 'services' as ViewMode,
+      label: 'Services & Capabilities',
+      icon: Sparkles,
+      badge: 'Zero Card',
+      roles: ['super_admin', 'tenant_admin', 'user'],
+    },
+    {
+      id: 'desktop' as ViewMode,
+      label: 'Desktop App (Win EXE)',
+      icon: Monitor,
+      badge: 'PID 10424',
+      roles: ['super_admin', 'tenant_admin', 'user'],
+    },
+    {
+      id: 'mobile' as ViewMode,
+      label: 'Mobile Companion',
+      icon: Smartphone,
+      badge: 'iOS/APK',
       roles: ['super_admin', 'tenant_admin', 'user'],
     },
   ];

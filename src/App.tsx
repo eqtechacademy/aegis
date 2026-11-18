@@ -11,6 +11,9 @@ import { RobotExperience3D } from './components/Robot3D/RobotExperience3D';
 import { AutomationWorkflowSetup } from './components/Automations/AutomationWorkflowSetup';
 import { ApiIntegrationsVault } from './components/Integrations/ApiIntegrationsVault';
 import { SubscriptionPricing } from './components/Pricing/SubscriptionPricing';
+import { ServicesCapabilities } from './components/Services/ServicesCapabilities';
+import { DesktopAppNative } from './components/Desktop/DesktopAppNative';
+import { MobileCompanion } from './components/Mobile/MobileCompanion';
 import { AuthenticationModal } from './components/Auth/AuthenticationModal';
 import { MemoryCenter } from './components/Memory/MemoryCenter';
 import { ActivityTasksCenter } from './components/Tasks/ActivityTasksCenter';
@@ -40,6 +43,12 @@ export const App: React.FC = () => {
         return <ApiIntegrationsVault />;
       case 'pricing':
         return <SubscriptionPricing />;
+      case 'services':
+        return <ServicesCapabilities />;
+      case 'desktop':
+        return <DesktopAppNative />;
+      case 'mobile':
+        return <MobileCompanion />;
       case 'dashboard':
       default:
         return <FuturisticDashboard />;
